@@ -22,3 +22,7 @@ aim是一个即时通讯服务器，主要为客服平台服务。实现以下�
 3. [Redigo] — Redis工具
 4. [Zap] - 日志工具
 5. [Wiidz/Goutil] - go工具包
+
+## 业务逻辑：
+
+![Image text](./docs/pumls/顺序图/应答池.png)
