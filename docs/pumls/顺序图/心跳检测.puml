@@ -1,0 +1,17 @@
+@startuml
+actor client
+participant server
+participant logicService
+
+client -> server: 心跳包请求
+server --> client: 心跳包响应
+
+client -> client: 等待一段时间
+
+client -> server: 心跳包请求
+server --> client: 心跳包响应
+
+
+server -> server: 连续n次没有收到，释放连接
+server -> logicService: 通知用户下线
+@enduml

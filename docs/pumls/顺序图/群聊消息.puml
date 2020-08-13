@@ -1,0 +1,24 @@
+@startuml
+participant client_1
+participant client_2
+participant client_3
+participant server
+participant messageService
+participant dataService
+participant customServer
+
+client_1 -> server: c1在group1中发送消息
+server --> client_1: 通知消息发送成功
+server --> messageService: 传递消息体
+messageService --> messageService: 持久化消息到group1中
+messageService --> messageService: 生成msgID
+messageService --> server: 传递msgID
+
+server --> dataService: 传递消息体
+dataService --> customServer: 处理数据并上报
+dataService --> server
+server --> server: 查询c2是否在线
+server --> client_2: 发送消息给c2
+client_2 --> server: 告知消息已读
+
+@enduml

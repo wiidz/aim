@@ -1,0 +1,34 @@
+@startuml
+title 聊天接入顺序图
+actor user #red
+participant server
+database msgPool
+actor staff_1 #blue
+actor staff_2 #blue
+actor staff_3 #blue
+
+== 已建立联系的会话 ==
+user --> server:用户发送消息
+server --> user:发送消息成功
+server-->staff_1:staff_1已和用户建立联系，推送给staff_1
+
+== 专属staff接入 ==
+user --> server:用户发送消息
+server --> user:发送消息成功
+server-->server:无建立联系的staffClient，查询专属客服是否在线
+server-->staff_2:在线，推给staff_2
+staff_2-->server:接入
+server-->user:通知接入
+
+== staff从消息池中接入 ==
+user --> server:用户发送消息
+server --> user:发送消息成功
+server-->server:无建立联系的staffClient，查询专属客服是否在线
+server-->msgPool:不在线，推入应答池
+msgPool-->staff_1:推送给staff_1
+msgPool->staff_2:推送给staff_2
+msgPool-->staff_3:推送给staff_3
+staff_3-->server:staff_3接入消息
+server-->msgPool:移出应答池，其他人不能接入
+server-->user:通知接入
+@enduml
